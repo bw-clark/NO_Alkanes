@@ -1,0 +1,17 @@
+#!/bin/bash
+for f in *.inp; do
+    jobname=$(basename "$f" .inp)
+    sbatch <<EOF
+#!/bin/bash
+#SBATCH --job-name=$jobname
+#SBATCH --output=${jobname}.out
+#SBATCH --error=${jobname}.err
+#SBATCH --time=24:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=10
+#SBATCH --mem=64G
+module load orca  # adjust for your cluster
+module load openmpi-ib/intel-2024.0/4.1.6
+/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca $f > ${jobname}.log
+EOF
+done
