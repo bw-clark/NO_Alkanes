@@ -27,6 +27,7 @@ class Rotater():
             new_coords[0] = v_N
             new_coords[1] = v_O
             self.write(new_coords, a_l, filename=self.od+'/para/para'+str(round(theta_deg))+'_deg.inp', mode='Para')
+        self.write_workup_submit()
     def read_coords(self):
         with open(self.filename) as f:
             full_list = []

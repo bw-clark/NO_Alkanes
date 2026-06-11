@@ -60,7 +60,7 @@ def extract_soc_matrix(text, mode='Real'):
    return abs(np.array(matrix)[0][3])*219474.63, abs(np.array(matrix_real)[0][3])*219474.63, soc_energy
 
 # Folder containing ORCA output files
-folders = ['3.42_A', '3.53_A', '3.64_A', '3.75_A', '3.86_A','3.97_A']
+folders = [d for d in glob.glob("*_A/") if os.path.isdir(d)]
 
 def read(directory):
    # Output CSV file
@@ -151,7 +151,9 @@ def make_surface(folders):
    row_s1nev = []
    row_imag = []
    row_real = []
-   row_diff = []
+   row_diff_nev = []
+   row_diff_cas = []
+
    for i in folders:
        e_s0, e_s1, angle, imag, real, e_s0_nev, e_s1_nev = read(i)
        dist = float(i[0:3])
@@ -180,13 +182,18 @@ def make_surface(folders):
                    "Distance": dist,
                    "Angle": a,
                    "Energy_S0": e0nev}))
-           row_diff.append(({
+           row_diff_nev.append(({
                    "Distance": dist,
                    "Angle": a,
-                   "Energy_S0": abs(e0nev-e1nev)}))
+                   "Energy_S0": e1nev-e0nev}))
+           row_diff_cas.append(({
+                   "Distance": dist,
+                   "Angle": a,
+                   "Energy_S0": es1-es0}))
    plotsurf(row_s0, 'S0_surf_cas')
    plotsurf(row_s1, 'S1_surf_cas')
-   plotsurf(row_diff, 'S1S0_diff')
+   plotsurf(row_diff_nev, 'S1S0_diff_nev')
+   plotsurf(row_diff_cas, 'S1S0_diff_cas')
    plotsurf(row_s1nev, 'S1_surf_nev')
    plotsurf(row_s0nev, 'S0_surf_nev')
    plotsurf(row_imag,'Imag_soc_surf')
