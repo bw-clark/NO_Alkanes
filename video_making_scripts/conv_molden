@@ -1,0 +1,7 @@
+#!/bin/bash
+for gbw in *.gbw; do
+    base="${gbw%.gbw}"
+    echo "Converting $gbw ..."
+    orca_2mkl "$base" -molden
+done
+

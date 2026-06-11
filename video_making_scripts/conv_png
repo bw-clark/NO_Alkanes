@@ -1,0 +1,1 @@
+for file in *.molden.input.png; do mv "$file" "${file%.molden.input.png}.png"; done

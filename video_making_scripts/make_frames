@@ -1,0 +1,21 @@
+#!/bin/bash
+JMOL=jmol.jar
+for file in *molden.input; do
+    dir=$(dirname "$file")
+    outfile="${dir}/${file}.png"
+    cat > temp.spt << EOF
+load "$file"
+mo HOMO
+mo titleformat " "
+background white
+mo fill translucent
+mo nomesh
+mo cutoff 0.005
+center
+zoom 100
+write IMAGE 1200 1200 PNGT "$outfile"
+quit
+EOF
+    java -jar $JMOL -n temp.spt
+done
+rm -f temp.spt
