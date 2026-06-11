@@ -130,54 +130,54 @@ class Rotater():
                 traj.write('\n')
     def write_workup_submit(self):
         para_sub = r'''
-        #!/bin/bash
-        for dir in para/*/; do
-            echo "Processing $dir"
+#!/bin/bash
+for dir in para/*/; do
+    echo "Processing $dir"
 
-            for inp in "$dir"/*.inp; do
-                [ -f "$inp" ] || continue
+    for inp in "$dir"/*.inp; do
+        [ -f "$inp" ] || continue
 
-                echo "Submitting $inp"
+        echo "Submitting $inp"
 
-                sbatch <<EOF
-        #!/bin/bash
-        #SBATCH --job-name=$(basename "${inp%.inp}")
-        #SBATCH --output=${inp%.inp}.out
-        #SBATCH --error=${inp%.inp}.err
-        #SBATCH --mem=64G
-        #SBATCH --time=24:00:00
-        #SBATCH --ntasks=20
-        module load orca  # adjust for your cluster
-        module load openmpi-ib/intel-2024.0/4.1.6
-        /sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca "$inp" > "${inp%.inp}.log"
-        EOF
-            done
-        done
+        sbatch <<EOF
+#!/bin/bash
+#SBATCH --job-name=$(basename "${inp%.inp}")
+#SBATCH --output=${inp%.inp}.out
+#SBATCH --error=${inp%.inp}.err
+#SBATCH --mem=64G
+#SBATCH --time=24:00:00
+#SBATCH --ntasks=20
+module load orca  # adjust for your cluster
+module load openmpi-ib/intel-2024.0/4.1.6
+/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca "$inp" > "${inp%.inp}.log"
+EOF
+    done
+done
         '''
         perp_sub = r'''
-        #!/bin/bash
-        for dir in perp/*/; do
-            echo "Processing $dir"
+#!/bin/bash
+for dir in perp/*/; do
+    echo "Processing $dir"
 
-            for inp in "$dir"/*.inp; do
-                [ -f "$inp" ] || continue
+    for inp in "$dir"/*.inp; do
+        [ -f "$inp" ] || continue
 
-                echo "Submitting $inp"
+        echo "Submitting $inp"
 
-                sbatch <<EOF
-        #!/bin/bash
-        #SBATCH --job-name=$(basename "${inp%.inp}")
-        #SBATCH --output=${inp%.inp}.out
-        #SBATCH --error=${inp%.inp}.err
-        #SBATCH --mem=64G
-        #SBATCH --time=24:00:00
-        #SBATCH --ntasks=20
-        module load orca  # adjust for your cluster
-        module load openmpi-ib/intel-2024.0/4.1.6
-        /sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca "$inp" > "${inp%.inp}.log"
-        EOF
-            done
-        done
+        sbatch <<EOF
+#!/bin/bash
+#SBATCH --job-name=$(basename "${inp%.inp}")
+#SBATCH --output=${inp%.inp}.out
+#SBATCH --error=${inp%.inp}.err
+#SBATCH --mem=64G
+#SBATCH --time=24:00:00
+#SBATCH --ntasks=20
+module load orca  # adjust for your cluster
+module load openmpi-ib/intel-2024.0/4.1.6
+/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca "$inp" > "${inp%.inp}.log"
+EOF
+    done
+done
         '''
         with open(self.od+'/submit_para.sub', 'w') as w:
             w.write(para_sub)
