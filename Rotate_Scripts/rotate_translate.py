@@ -34,6 +34,7 @@ class Rotater():
                 fin_coords[0] = v_N
                 fin_coords[1] = v_O
                 self.write(fin_coords, a_l, filename=self.od+'/para/'+str(dist)+'_A/para'+str(round(theta_deg))+'_deg.inp', mode='Para_'+str(dist))
+        self.write_workup_submit()
     def translate_NO(self, coords, translation):
         new_coords = coords.copy()
         dir_vector = coords[self.target_atom_index]
