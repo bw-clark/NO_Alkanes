@@ -98,7 +98,7 @@ class Rotater():
     def write(self, coords, atoms, filename, mode=''):
         with open(filename, "w") as w:
             w.write('!aug-cc-PVDZ\n')
-            w.write('%PAL NPROCS 10 END\n')
+            w.write('%PAL NPROCS 20 END\n')
             w.write('%CASSCF\n')
             w.write('nel 1\n')
             w.write('norb 2\n')
