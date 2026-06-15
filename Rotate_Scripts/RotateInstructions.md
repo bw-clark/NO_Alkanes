@@ -2,13 +2,13 @@
 
 1) In order to generate rotational dynamics videos for your molecules, you must first obtain an energy minimized geometry. Better geometries include **NEVPT2** and **MP2**, while **CASSCF** may be used. Once you have obtained the gemoetry, find the XYZ coordinates that represents the system in its energy minimized state. This can be accomplished by navigating to the directory in which you ran the optimization and locating a file ending in `.xyz`. Open the `.xyz` file. **If there are multiple trajectories**, copy the coordinates for the atoms from the bottom most trajectory. **If there is one trajectory** copy the coordinates for the geometry. Be sure to only copy the coordinates and atom label like this: 
 
-        `O -3.48765083192002     -0.42445509478239	  0.17021825494316`
+        O -3.48765083192002     -0.42445509478239	  0.17021825494316
 
-        `N  -2.72622306718642     -0.22518484770389     -0.62579766694305`
+        N  -2.72622306718642     -0.22518484770389     -0.62579766694305
 
     Once you have the trajectory copied, type
 
-        ```nano ComplexName_xyz```
+        nano ComplexName_xyz
 
     and paste your coordinates into this file and save it. 
 > **Note:** Click **Control + X**, then **Y**, and then **Enter** to stop viewing the file.
@@ -30,7 +30,7 @@ Finally, open this link: **https://liwt31.github.io/2022/01/02/online_viewer/** 
 
 You are now ready to run `rotate.py`:
 
-    `python rotate.py`
+    python rotate.py
 
 You should now see new files created in your directory under the name that you chose for your `'output_directory_name'`. Open that directory and you should see four files:
 
