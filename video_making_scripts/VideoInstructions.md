@@ -42,10 +42,10 @@ mkdir MoldenFiles
 Move the generated files into it:
 
 ```bash
-mv *.molden.output MoldenFiles
+mv *.molden.input MoldenFiles
 ```
 
-Now navigate into the `MoldenFiles` directory and add the following files from the Git repository:
+Move the MoldenFiles folder to your personal computer using GLOBUS. Now navigate into the `MoldenFiles` directory and add the following files from the Git repository:
 
 ```text
 make_frames
