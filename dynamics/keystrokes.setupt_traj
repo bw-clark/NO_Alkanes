@@ -1,0 +1,51 @@
+                                         #Use file "initconds.excited"? [True]
+                                         #Number of states: [0 2 0]
+                                         #Do you want all states to be active? [True]
+                                         #Do you want to see the content of the initconds file? [True]
+                                         #States to setup the dynamics: [3] (range comprehension enabled)
+                                         #Starting index: [1]
+20                                       #Number of trajectories: [400]
+                                         #RNG Seed:  [!]
+4                                        #Interface number:
+                                         #Method: [1]
+200                                      #Simulation time (fs): [1000.0]
+                                         #Simulation timestep (fs): [0.5]
+                                         #Integrator: [2]
+                                         #Nsubsteps: [25]
+                                         #Do you want to prematurely terminate trajectories? [False]
+                                         #SHARC dynamics? [True]
+                                         #Spin-Orbit calculation? [True]
+                                         #Coupling number: [4]
+2                                        #GradCorrect: [1]
+                                         #EkinCorrect: [2]
+                                         #Reflect frustrated: [1]
+                                         #Decoherence scheme: [2]
+                                         #Hopping scheme: [2]
+                                         #Forced hops to ground state? [False]
+                                         #Scaling? [False]
+                                         #Damping? [False]
+                                         #Atom masking? [False]
+                                         #Select gradients? [False]
+true                                     #Select non-adiabatic couplings? [False]
+0.015                                    #Selection threshold (eV): [0.5]
+                                         #Do you want to include a laser field in the simulation? [False]
+/sciclone/home/bwclark01/programs/build  #Path to MOLCAS: [$MOLCAS/] (autocomplete enabled)
+/sciclone/scr10/bwclark01/WORK/no_ad         #Path to scratch directory: (autocomplete enabled)
+                                         #Use this template file? [True]
+                                         #Do you have initial wavefunction files for Doublet? [True]
+2                                        #JobIph files (1) or RasOrb files (2)?
+MOLCAS.RasOrb                            #Initial wavefunction file for Doublets: [MOLCAS.2.RasOrb.init] (autocomplete enabled)
+2000                                     #MOLCAS memory:
+1                                        #Number of CPUs:
+                                         #Write output in NetCDF format? [False]
+                                         #Write gradients? [False]
+true                                     #Write NACs? [False]
+true                                     #Write property matrices? [False]
+                                         #Write property vectors? [False]
+true                                     #Write overlap matrix? [True]
+                                         #Modify stride? [False]
+                                         #Use mode 1 (i.e., calculate here)? [True]
+true                                     #Generate submission script? [False]
+sbatch                                   #Submission command?
+Kidwell                                  #Project Name:
+                                         #Do you want to setup the specified calculations? [True]

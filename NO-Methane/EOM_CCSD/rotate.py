@@ -81,19 +81,10 @@ class Rotater():
         return v_prime_N, v_prime_O
     def write(self, coords, atoms, filename, mode=''):
         with open(filename, "w") as w:
-            w.write('!aug-cc-PVTZ\n')
-            w.write('%PAL NPROCS 10 END\n')
-            w.write('%CASSCF\n')
-            w.write('nel 1\n')
-            w.write('norb 2\n')
-            w.write('nroots 2\n')
-            w.write('PTMethod FIC_NEVPT2\n')
-            w.write('weights 1 1\n')
-            w.write('rel\n')
-            w.write('  dosoc true\n')
-            w.write('  PrintLevel 2\n')
-            w.write('end\n')
-            w.write('maxiter 500\n')
+            w.write('!RHF EOM-CCSD aug-cc-PVTZ TightSCF\n')
+            w.write('%PAL NPROCS 20 END\n')
+            w.write('%mdci\n')
+            w.write('nroots 1\n')
             w.write('end\n')
             w.write('* xyz 0 2\n')
             for line, atom in zip(coords, atoms):
@@ -114,43 +105,33 @@ class Rotater():
                 traj.write('\n')
     def write_workup_submit(self):
         with open(self.od+"/para/submit.sub", "w") as w:
-            sbatch=r'''#!/bin/bash
-for f in *.inp; do
-    jobname=$(basename "$f" .inp)
-
-    sbatch <<EOF
-#!/bin/bash
-#SBATCH --job-name=$jobname
-#SBATCH --output=${jobname}.out
-#SBATCH --error=${jobname}.err
-#SBATCH --time=24:00:00
-#SBATCH --nodes=1
-#SBATCH --ntasks=10
-#SBATCH --mem=64G
-
-module load orca
-module load openmpi-ib/intel-2024.0/4.1.6
-
-mkdir -p "\$TMPDIR/$jobname"
-SCRATCH="\$TMPDIR/$jobname"
-
-cp "$PWD/$f" "\$SCRATCH/"
-cd "\$SCRATCH"
-
-echo "PWD=\$(pwd)"
-ls -lah
-
-export OMPI_MCA_btl="^openib"
-
-/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca $f > "$PWD/${jobname}.log"
-
-cp -f *.gbw *.xyz *.hess "$PWD/" 2>/dev/null || true
-rm -rf "\$SCRATCH"
-EOF
-done'''
-            w.write(sbatch)
+            w.write('#!/bin/bash\nfor f in *.inp; do\njobname=$(basename "$f" .inp)\nsbatch <<EOF\n#!/bin/bash\n')
+            w.write('#SBATCH --job-name=$jobname\n')
+            w.write('#SBATCH --output=${jobname}.out\n')
+            w.write('#SBATCH --error=${jobname}.err\n')
+            w.write('#SBATCH --time=24:00:00\n')
+            w.write('#SBATCH --nodes=1\n')
+            w.write('#SBATCH --ntasks=20\n')
+            w.write('#SBATCH --mem=64G\n')
+            w.write('module load orca \n')
+            w.write('module load openmpi-ib/intel-2024.0/4.1.6\n')
+            w.write('/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca $f > ${jobname}.log\n')
+            w.write('EOF\n')
+            w.write('done\n')
         with open(self.od+"/perp/submit.sub", "w") as w:
-            w.write(sbatch)
+            w.write('#!/bin/bash\nfor f in *.inp; do\njobname=$(basename "$f" .inp)\nsbatch <<EOF\n#!/bin/bash\n')
+            w.write('#SBATCH --job-name=$jobname\n')
+            w.write('#SBATCH --output=${jobname}.out\n')
+            w.write('#SBATCH --error=${jobname}.err\n')
+            w.write('#SBATCH --time=24:00:00\n')
+            w.write('#SBATCH --nodes=1\n')
+            w.write('#SBATCH --ntasks=20\n')
+            w.write('#SBATCH --mem=64G\n')
+            w.write('module load orca \n')
+            w.write('module load openmpi-ib/intel-2024.0/4.1.6\n')
+            w.write('/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca $f > ${jobname}.log\n')
+            w.write('EOF\n')
+            w.write('done\n')
         with open(self.od+'/para/1d_conv.py', 'w') as w:
             script_text = r'''
 import matplotlib.pyplot as plt
@@ -341,5 +322,5 @@ print(f"Saved results to {output_csv}")
         with open(self.od+'/perp/1d_conv.py', 'w') as w:
             w.write(script_text)
         
-k = Rotater(input_file='input_geom_file', target_atom_index=2, output_directory='output_directory_name')
+k = Rotater(input_file='tz_geom.xyz', target_atom_index=2, output_directory='output_directory_name')
 k.kernel()

@@ -1,0 +1,20 @@
+# Useful Information
+                                         #Use file "initconds"? [True]
+                                         #Initial condition range: [1 400]
+0 2 0                                    #Number of states:
+4                                        #Interface number:
+                                         #Spin-Orbit calculation? [True]
+                                         #Reference overlaps? [False]
+/sciclone/home/bwclark01/programs/build  #Path to MOLCAS: [$MOLCAS/] (autocomplete enabled)
+/sciclone/scr10/bwclark01/WORK/traj5           #Path to scratch directory: (autocomplete enabled)
+                                         #Use this template file? [True]
+                                         #Do you have initial wavefunction files for Doublet? [True]
+2                                        #JobIph files (1) or RasOrb files (2)?
+MOLCAS.RasOrb                            #Initial wavefunction file for Doublets: [MOLCAS.2.RasOrb.init] (autocomplete enabled)
+                                         #MOLCAS memory: [1000]
+                                         #Number of CPUs: [1]
+                                         #Use mode 1 (i.e., calculate here)? [True]
+true                                     #Generate submission script? [False]
+sbatch                                   #Submission command?
+KIDWELL                                  #Project Name:
+                                         #Do you want to setup the specified calculations? [True]

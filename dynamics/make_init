@@ -1,0 +1,25 @@
+
+for dir in /sciclone/scr10/bwclark01/qm_md/wigner_final/ICOND_*/; do
+    cat > "$dir/run.sh" << EOF
+#!/bin/bash
+#SBATCH --mem=64G
+#SBATCH --cpus-per-task=1
+
+PRIMARY_DIR=$dir
+
+cd \$PRIMARY_DIR
+
+module load hdf5/gcc-11.4.1/1.14.3
+module load openmpi-ib/gcc-11.4.1/4.1.6
+
+export MOLCAS=/sciclone/home/bwclark01/programs/build
+export MOLCASMEM=50000
+export MOLCASDISK=100000
+export MOLCAS_MOLDEN=ON
+
+\$SHARC/SHARC_MOLCAS.py QM.in >> QM.log 2>> QM.err
+EOF
+    chmod +x "$dir/run.sh"
+done
+
+echo "Done - updated $(ls -d /sciclone/scr10/bwclark01/qm_md/wigner_final/ICOND_*/ | wc -l) run.sh files"

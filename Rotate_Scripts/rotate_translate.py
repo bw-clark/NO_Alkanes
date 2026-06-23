@@ -131,6 +131,7 @@ class Rotater():
     def write_workup_submit(self):
         para_sub = r'''
 #!/bin/bash
+
 for dir in para/*/; do
     echo "Processing $dir"
 
@@ -140,22 +141,42 @@ for dir in para/*/; do
         echo "Submitting $inp"
 
         sbatch <<EOF
+        
 #!/bin/bash
-#SBATCH --job-name=$(basename "${inp%.inp}")
-#SBATCH --output=${inp%.inp}.out
-#SBATCH --error=${inp%.inp}.err
-#SBATCH --mem=64G
+#SBATCH --job-name=$jobname
+#SBATCH --output=${jobname}.out
+#SBATCH --error=${jobname}.err
 #SBATCH --time=24:00:00
-#SBATCH --ntasks=20
-module load orca  # adjust for your cluster
+#SBATCH --nodes=1
+#SBATCH --ntasks=10
+#SBATCH --mem=64G
+
+module load orca
 module load openmpi-ib/intel-2024.0/4.1.6
-/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca "$inp" > "${inp%.inp}.log"
-EOF
+
+mkdir -p "\$TMPDIR/$jobname"
+SCRATCH="\$TMPDIR/$jobname"
+
+cp "$PWD/$f" "\$SCRATCH/"
+cd "\$SCRATCH"
+
+echo "PWD=\$(pwd)"
+ls -lah
+
+export OMPI_MCA_btl="^openib"
+
+/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca $f > "$PWD/${jobname}.log"
+
+cp -f *.gbw *.xyz *.hess "$PWD/" 2>/dev/null || true
+rm -rf "\$SCRATCH"
+EOFx
     done
 done
+
         '''
         perp_sub = r'''
 #!/bin/bash
+
 for dir in perp/*/; do
     echo "Processing $dir"
 
@@ -165,17 +186,35 @@ for dir in perp/*/; do
         echo "Submitting $inp"
 
         sbatch <<EOF
+        
 #!/bin/bash
-#SBATCH --job-name=$(basename "${inp%.inp}")
-#SBATCH --output=${inp%.inp}.out
-#SBATCH --error=${inp%.inp}.err
-#SBATCH --mem=64G
+#SBATCH --job-name=$jobname
+#SBATCH --output=${jobname}.out
+#SBATCH --error=${jobname}.err
 #SBATCH --time=24:00:00
-#SBATCH --ntasks=20
-module load orca  # adjust for your cluster
+#SBATCH --nodes=1
+#SBATCH --ntasks=10
+#SBATCH --mem=64G
+
+module load orca
 module load openmpi-ib/intel-2024.0/4.1.6
-/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca "$inp" > "${inp%.inp}.log"
-EOF
+
+mkdir -p "\$TMPDIR/$jobname"
+SCRATCH="\$TMPDIR/$jobname"
+
+cp "$PWD/$f" "\$SCRATCH/"
+cd "\$SCRATCH"
+
+echo "PWD=\$(pwd)"
+ls -lah
+
+export OMPI_MCA_btl="^openib"
+
+/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca $f > "$PWD/${jobname}.log"
+
+cp -f *.gbw *.xyz *.hess "$PWD/" 2>/dev/null || true
+rm -rf "\$SCRATCH"
+EOFx
     done
 done
         '''

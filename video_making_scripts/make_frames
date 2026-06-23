@@ -1,5 +1,5 @@
 #!/bin/bash
-JMOL=jmol.jar
+JMOL=Jmol.jar
 for file in *molden.input; do
     dir=$(dirname "$file")
     outfile="${dir}/${file}.png"

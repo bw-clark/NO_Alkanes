@@ -1,6 +1,7 @@
 #!/bin/bash
 for f in *.inp; do
     jobname=$(basename "$f" .inp)
+
     sbatch <<EOF
 #!/bin/bash
 #SBATCH --job-name=$jobname
@@ -10,8 +11,24 @@ for f in *.inp; do
 #SBATCH --nodes=1
 #SBATCH --ntasks=10
 #SBATCH --mem=64G
-module load orca  # adjust for your cluster
+
+module load orca
 module load openmpi-ib/intel-2024.0/4.1.6
-/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca $f > ${jobname}.log
+
+mkdir -p "\$TMPDIR/$jobname"
+SCRATCH="\$TMPDIR/$jobname"
+
+cp "$PWD/$f" "\$SCRATCH/"
+cd "\$SCRATCH"
+
+echo "PWD=\$(pwd)"
+ls -lah
+
+export OMPI_MCA_btl="^openib"
+
+/sciclone/apps/orca/orca_6_1_1_linux_x86-64_shared_openmpi418_nodmrg/orca $f > "$PWD/${jobname}.log"
+
+cp -f *.gbw *.xyz *.hess "$PWD/" 2>/dev/null || true
+rm -rf "\$SCRATCH"
 EOF
 done
