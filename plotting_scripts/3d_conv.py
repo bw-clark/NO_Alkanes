@@ -249,7 +249,7 @@ def plotsurf(rows_s0, rows_s1,name):
     ani = FuncAnimation(fig, update, frames=np.arange(0, 360, 1), interval=20, blit=False)
 
     # Optional: Save the animation as a video or GIF
-    ani.save(name+'.mp4', writer='ffmpeg', fps=30)
+    ani.save(name+'.gif', writer='Pillow', fps=30)
     #plt.contour(
      #   X, Y, Z,
      #   levels=20,
