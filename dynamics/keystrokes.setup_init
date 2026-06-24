@@ -6,7 +6,7 @@
                                          #Spin-Orbit calculation? [True]
                                          #Reference overlaps? [False]
 /sciclone/home/bwclark01/programs/build  #Path to MOLCAS: [$MOLCAS/] (autocomplete enabled)
-/sciclone/scr10/bwclark01/WORK/traj5           #Path to scratch directory: (autocomplete enabled)
+/sciclone/scr10/bwclark01/WORK/inits           #Path to scratch directory: (autocomplete enabled)
                                          #Use this template file? [True]
                                          #Do you have initial wavefunction files for Doublet? [True]
 2                                        #JobIph files (1) or RasOrb files (2)?
